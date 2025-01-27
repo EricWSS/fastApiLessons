@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean
 from db.database import Base
+from sqlalchemy.orm import relationship
+
 
 class User(Base):
     __tablename__ = "ew_usuarios"
@@ -9,3 +11,5 @@ class User(Base):
     password = Column(String(255), nullable=False)
     is_active = Column(Boolean, default=True)
     #Pode-se incluir muitos outros dados
+
+    tarefas = relationship("Tarefa", back_populates="usuario")

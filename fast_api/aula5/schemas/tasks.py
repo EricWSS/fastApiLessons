@@ -20,7 +20,7 @@ class TarefaCreate(BaseModel):
 class TarefaUpdate(BaseModel):
     
     id: int
-    tarefa: Optional[str]
+    tarefa: Optional[str] = None
     feito: Optional[bool] = None
 
 
@@ -29,6 +29,8 @@ class TarefaResponse(BaseModel):
     id: int
     tarefa: str
     feito: bool
+    usuario_id: int
+    nome_usuario: str
 
     class Config:
         orm_mode = True
