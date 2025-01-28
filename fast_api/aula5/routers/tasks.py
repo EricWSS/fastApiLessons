@@ -19,7 +19,7 @@ async def get_tasks(
     # Busca as tarefas no banco
     # tarefas = db.query(Tarefa).filter(Tarefa.usuario_id ==user['id']).all() # Consulta por todas as tarefas do usuário.
     
-    tarefas_query = text(
+    tarefas_query = text( # Consulta SQL Crua
         f"""select 
             t.id ,
             t.tarefa ,
@@ -31,12 +31,12 @@ async def get_tasks(
         where t.usuario_id = :usuario_id;"""
     )
 
-    result = db.execute(tarefas_query,{"usuario_id": user["id"]}).fetchall()
+    result: list = db.execute(tarefas_query,{"usuario_id": user["id"]}).fetchall() # Lista de tuplas
 
     if result is None:
         raise HTTPException(status_code=404, detail="Nenhuma tarefa encontrada.")
     
-    tarefas = [
+    tarefas = [ # List comprehension
         {
             "id": row.id,
             "tarefa": row.tarefa,

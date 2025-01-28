@@ -13,7 +13,7 @@ ALGORITHM = "HS256"
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 # Função para criar o token de acesso
-def create_access_token(data: dict):
+def create_access_token(data: dict): # Não fiz nada novo
     payload = data.copy()
     expire = datetime.now() + timedelta(hours=30)  # Token expira em 30 horas
     payload.update({"exp": expire})
@@ -22,10 +22,11 @@ def create_access_token(data: dict):
 
 # Função para verificar o token
 def verify_token(token: str = Depends(oauth2_scheme)):
+    
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload:dict = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: int = payload.get("sub")
-        role: str = payload.get("role")
+        role: str = payload.get("role") # Novidade
         if user_id is None or role is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

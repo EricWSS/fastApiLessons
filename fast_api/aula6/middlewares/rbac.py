@@ -3,7 +3,7 @@ from fastapi import Request, HTTPException
 import jwt
 from auth.jwt_handler import SECRET_KEY
 
-IGNORED_PATHS = ["/login", "/register"]
+IGNORED_PATHS = ["/login", "/register"]  # Caminhos ignorados
 ALGORITHM = "HS256"
 
 async def rbac_middleware(request: Request, call_next):
@@ -18,7 +18,7 @@ async def rbac_middleware(request: Request, call_next):
 
     token = auth_header.split(" ")[1]
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload:dict = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         print("Payload do token:", payload)  # Log
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=403, detail="Token expirado")

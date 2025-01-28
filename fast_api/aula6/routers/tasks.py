@@ -11,10 +11,10 @@ router = APIRouter()
 
 @router.get("/tasks", response_model=list[TarefaResponse])
 async def get_tasks(
-    user: dict = Depends(get_current_user),  # Pegando usuário autenticado
-    db: Session = Depends(get_db)
+    user: dict = Depends(get_current_user),  # Pegando usuário autenticado pelo token
+    db: Session = Depends(get_db) # Entrando no banco de dados
 ):
-    tarefas = db.query(Tarefa).filter(Tarefa.usuario_id == user["id"]).all()
+    tarefas = db.query(Tarefa).filter(Tarefa.usuario_id == user["id"]).all() # Consulta no banco
     if not tarefas:
         raise HTTPException(status_code=404, detail="Nenhuma tarefa encontrada.")
     return tarefas
@@ -27,7 +27,8 @@ async def create_task(
     user: dict = Depends(get_current_user), 
     db: Session = Depends(get_db)
 ):
-    print('user', user)
+    if user.get('role') != 'admin':
+        raise HTTPException(status_code=403, detail="Acesso negado")
     
     # Criação da nova tarefa, associando ao usuário logado (usuario_id vem do token)
     nova_tarefa = Tarefa(tarefa=task.tarefa, feito=task.feito, usuario_id=user['id'])
