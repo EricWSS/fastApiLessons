@@ -22,6 +22,7 @@ def create_access_token(data: dict): # Não fiz nada novo
 
 # Função para verificar o token
 def verify_token(token: str = Depends(oauth2_scheme)):
+    """ Ele verifica o token e não o que está dentro dele"""
     
     try:
         payload:dict = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
