@@ -9,7 +9,7 @@ from auth.dependencies import verify_token , get_current_user
 
 router = APIRouter()
 
-@router.get("/tasks", response_model=list[TarefaResponse]) # Modelo de resposta da rota
+@router.get("/tasks", response_model=list[TarefaResponse])
 async def get_tasks(
     user: dict = Depends(get_current_user),  # Pegando usuário autenticado pelo token
     db: Session = Depends(get_db) # Entrando no banco de dados

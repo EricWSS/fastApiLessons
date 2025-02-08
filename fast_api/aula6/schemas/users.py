@@ -5,7 +5,7 @@ class UserBase(BaseModel):
     name: str
     email: EmailStr
 
-class UserCreate(UserBase):# Herança
+class UserCreate(UserBase):
     password: str
     role: Optional[str] = "user"
     
@@ -13,6 +13,8 @@ class UserCreate(UserBase):# Herança
         orm_mode = True
 
 class UserLogin(BaseModel):
+    # name: str
+    email: EmailStr 
     password: str
 
 class UserResponse(UserBase):
